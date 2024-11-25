@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './styles.css'
+import NavBar from '../../components/navbar/navbar';
 
 
 function Home() {
@@ -30,44 +31,40 @@ function Home() {
 
   return (
     <div className='containner'>
-      <header className="header">
-        <h1 className="title">Gerenciador de Tarefas</h1>
-        <nav className="nav">
-          <Link className="Link" to="#cadastro-usuarios">Cadastro de Usuários</Link>
-          <Link className="Link" to="/cadastrar-tarefas">Cadastro de Tarefas</Link>
-          <Link className="Link" to="/gerenciar-tarefas">Gerenciar Tarefas</Link>
-        </nav>
+      <header className="">
+        <NavBar/>
       </header>
 
       <main>
-        <h2>Cadastro de Usuários</h2>
+        <p className='title'>Gerenciamento de Usuários</p>
+        <p className="subtitle"> Adicione e organize os usuários do sistema facilmente.</p>
         <form onSubmit={handleSubmit}>
-          <div className='teste' style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            <label htmlFor="username" style={{ flex: '1', marginRight: '10px' }}>Nome:</label>
+          <div className='containerName'>
+            <label htmlFor="username">Nome</label>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              style={{ flex: '2', height: '5px', padding: 10, borderRadius: '7px' }}
+              placeholder='Digite o nome do Usuário'
             />
           </div>
-          <div className='teste' style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            <label htmlFor="email" style={{ flex: '1', marginRight: '10px' }}>Email:</label>
+          <div className='containerEmail'>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder='Digite o Email do Usuário'
               required
-              style={{ flex: '2', height: '5px', padding: 10, borderRadius: '7px' }}
             />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <button type="submit" className="botao-cadastrar">Cadastrar</button>
+          <div className='buttonArea'>
+            <button type="submit" className="button">Cadastrar</button>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div>
             <p style={{ color: 'green' }}>{msn}</p>
           </div>
         </form>

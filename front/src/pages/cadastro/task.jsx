@@ -54,43 +54,47 @@ const TaskForm = () => {
         <NavBar/>
       </section>
 
-      <h2>Cadastrar Nova Tarefa</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Usuário:</label>
-          <select name="usuario" value={formData.usuario} onChange={handleChange} required>
-            <option value="">Selecione um usuário</option>
-            {usuarios.map(user => (
-              <option key={user.id} value={user.id}>{user.username}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>Descrição da Tarefa:</label>
-          <textarea name="descricao" value={formData.descricao} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Setor:</label>
-          <input type="text" name="setor" value={formData.setor} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Prioridade:</label>
-          <select name="prioridade" value={formData.prioridade} onChange={handleChange} required>
-            <option value="baixa">Baixa</option>
-            <option value="media">Média</option>
-            <option value="alta">Alta</option>
-          </select>
-        </div>
-        <div>
-          <label>Status:</label>
-          <select name="status" value={formData.status} onChange={handleChange} required>
-            <option value="a_fazer">A Fazer</option>
-            <option value="fazendo">Fazendo</option>
-            <option value="pronto">Pronto</option>
-          </select>
-        </div>
-        <button type="submit">Cadastrar Tarefa</button>
-      </form>
+      <main>
+        <p className="title">Cadastrar Nova Tarefa</p>
+        <form onSubmit={handleSubmit}>
+          <div className="containerName">
+            <label>Usuário</label>
+            <select name="usuario" value={formData.usuario} onChange={handleChange} required>
+              <option value="">Selecione um usuário</option>
+              {usuarios.map(user => (
+                <option key={user.id} value={user.id}>{user.username}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label>Descrição da Tarefa:</label>
+            <textarea name="descricao" value={formData.descricao} onChange={handleChange} required />
+          </div>
+          <div className="containerName">
+            <label>Setor:</label>
+            <input type="text" name="setor" placeholder="Insira o Setor" value={formData.setor} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>Prioridade:</label>
+            <select name="prioridade" value={formData.prioridade} onChange={handleChange} required>
+              <option value="baixa">Baixa</option>
+              <option value="media">Média</option>
+              <option value="alta">Alta</option>
+            </select>
+          </div>
+          <div>
+            <label>Status:</label>
+            <select name="status" value={formData.status} onChange={handleChange} required>
+              <option value="a_fazer">A Fazer</option>
+              <option value="fazendo">Fazendo</option>
+              <option value="pronto">Pronto</option>
+            </select>
+          </div>
+          <button type="submit" className="button">Cadastrar Tarefa</button>
+        </form>
+      </main>
+
+
     </div>
   );
 };

@@ -1,4 +1,66 @@
-.App {
+main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+  overflow: hidden;
+
+  .title{
+    font-size: 21px;
+    font-weight: 400;
+  }
+
+  .subtitle{
+    font-size: 14px;
+    font-weight: 200;
+    margin-top: -5px;
+    color: rgb(108, 108, 108);
+  }
+
+  form{
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+
+    .containerName{
+      display: flex;
+      flex-direction: column;
+
+      input{
+        height: 40px;
+        outline: none;
+        text-decoration: none;
+      }
+    }
+
+    .containerEmail{
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+
+      input{
+        height: 18px;
+        outline: none;
+        text-decoration: none;
+        border: 1px solid #DDDDDD;
+        border-radius: 3px;
+        padding: 10px;
+        font-size: 15px;
+      }
+    }
+
+    .button{
+      background-color: #0056B3;
+    }
+  }
+
+
+}
+
+
+
+/* .App {
   text-align: center;
 }
 
@@ -68,7 +130,7 @@
 
 .containner {
   /* pass; */
-}
+/* }
 
 .botao-cadastrar {
   background-color: #4CAF50; 
@@ -79,4 +141,4 @@
   cursor: pointer;           
   font-size: 16px;         
   width: 150px; 
-}
+} */ 

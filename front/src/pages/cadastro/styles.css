@@ -1,66 +1,144 @@
-form {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 20px;
-  max-width: 400px;
-  margin: 20px auto;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+  overflow: hidden;
+
+  .title{
+    font-size: 21px;
+    font-weight: 400;
+  }
+
+  .subtitle{
+    font-size: 14px;
+    font-weight: 200;
+    margin-top: -5px;
+    color: rgb(108, 108, 108);
+  }
+
+  form{
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+
+    .containerName{
+      display: flex;
+      flex-direction: column;
+
+      input{
+        height: 40px;
+        outline: none;
+        text-decoration: none;
+      }
+    }
+
+    .containerEmail{
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+
+      input{
+        height: 18px;
+        outline: none;
+        text-decoration: none;
+        border: 1px solid #DDDDDD;
+        border-radius: 3px;
+        padding: 10px;
+        font-size: 15px;
+      }
+    }
+
+    .button{
+      background-color: #0056B3;
+    }
+  }
+
+
 }
 
-h2 {
+
+
+/* .App {
   text-align: center;
-  color: #333;
-  font-size: 1.5em;
-  margin-bottom: 20px;
 }
 
-label {
-  display: block;
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 8px;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-input[type="text"],
-textarea,
-select {
-  width: 100%;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+  
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+  
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+  
+  
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: blue;
   padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.9em;
-  color: #333;
-  box-sizing: border-box;
+  color: white;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 80px;
+.title {
+  margin: 0,
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #4CAF50;
-  color: #fff;
-  font-size: 1em;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.nav {
+  display: flex;
+  gap: 15px;
 }
 
-button:hover {
-  background-color: #45a049;
+.Link {
+  color: aliceblue;
+  text-decoration: none;
 }
 
-button:active {
-  background-color: #3d8c42;
+.teste {
+  width: 350px;
+  height: 30px;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: 0px 0px 5px rgba(0, 150, 0, 0.5);
-}
+.containner {
+  /* pass; */
+/* }
+
+.botao-cadastrar {
+  background-color: #4CAF50; 
+  color: white;             
+  padding: 10px 20px;        
+  border: none;              
+  border-radius: 5px;       
+  cursor: pointer;           
+  font-size: 16px;         
+  width: 150px; 
+} */ 
