@@ -1,51 +1,64 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './styles.css';
 import NavBar from '../../components/navbar/navbar';
+import Swal from "sweetalert2";
 
 const GerenciamentoDeTarefas = () => {
     const navigate = useNavigate();
     const [usuarios, setUsuarios] = useState([]);
     const [tasks, setTasks] = useState([]);
+    
+    const statusColors = {
+        a_fazer: '#F9F0F0', 
+        fazendo: '#FEF4E2', 
+        pronto: '#F7FCEC', 
+    };
+
     const [statusOptions] = useState([
         { value: 'a_fazer', label: 'A Fazer' },
         { value: 'fazendo', label: 'Fazendo' },
         { value: 'pronto', label: 'Pronto' }
     ]);
 
-    // Função para buscar os usuários
     const fetchUsuarios = async () => {
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/users/');
+            console.log('users:', response.data);
             setUsuarios(response.data);
         } catch (error) {
             console.error('Erro ao buscar usuários:', error);
         }
     };
 
-    // Função para buscar as tarefas
     const fetchTasks = async () => {
         try {
             const response = await axios.get('http://127.0.0.1:8000/api/tasks/');
-            setTasks(response.data);
+            const tasksWithUsernames = response.data.map(task => {
+                const user = usuarios.find(u => u.id === task.user);
+                return { ...task, username: user ? user.username : "Desconhecido" }; 
+            });
+            setTasks(tasksWithUsernames);
         } catch (error) {
             console.error("Erro ao buscar as tarefas:", error);
         }
     };
 
-    // Chama as funções quando o componente é montado
     useEffect(() => {
         fetchUsuarios();
-        fetchTasks();
     }, []);
 
-    // Função para atualizar o status da tarefa
+    useEffect(() => {
+        if (usuarios.length > 0) {
+            fetchTasks();
+        }
+    }, [usuarios]); // Fetch tasks only after users are loaded
+
     const handleStatusChange = async (taskId, newStatus) => {
         console.log("ID da Tarefa:", taskId);
         console.log("Novo Status:", newStatus);
 
-        // Encontre a tarefa que será atualizada
         const taskToUpdate = tasks.find(task => task.id === taskId);
 
         if (!taskToUpdate) {
@@ -54,71 +67,89 @@ const GerenciamentoDeTarefas = () => {
         }
 
         try {
-            // Enviar o objeto completo com o novo status
-            const updatedTask = {
-                ...taskToUpdate, // Copia todos os campos da tarefa
-                status: newStatus, // Atualiza apenas o status
-            };
-
+            const updatedTask = { ...taskToUpdate, status: newStatus };
             await axios.put(`http://127.0.0.1:8000/api/tasks/${taskId}/`, updatedTask);
 
-            // Atualiza a lista localmente
             setTasks(prevTasks =>
                 prevTasks.map(task =>
                     task.id === taskId ? updatedTask : task
                 )
             );
-
-            alert("Status da tarefa atualizado com sucesso!");
+            Swal.fire({
+                title: "Status atualizado!",
+                text: "Status da tarefa atualizado com sucesso.",
+                icon: "success",
+                confirmButtonColor: "#1C66B6",
+                confirmButtonText: "Fechar",
+            });
         } catch (error) {
             console.error("Erro ao atualizar o status da tarefa:", error);
-            alert("Erro ao atualizar o status. Verifique os dados e tente novamente.");
+            Swal.fire({
+                title: "Erro!",
+                text: "Erro ao atualizar o status. Verifique os dados e tente novamente.",
+                icon: "error",
+                confirmButtonColor: "#1C66B6",
+                confirmButtonText: "Fechar",
+            });
         }
     };
 
-    // Função para excluir a tarefa
     const handleDeleteTask = async (taskId) => {
         try {
             await axios.delete(`http://127.0.0.1:8000/api/tasks/del/${taskId}/`);
             setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
-            alert("Tarefa excluída com sucesso!");
+            Swal.fire({
+                title: "Tarefa excluída!",
+                text: "Tarefa excluída com sucesso!",
+                icon: "success",
+                confirmButtonColor: "#1C66B6",
+                confirmButtonText: "Fechar",
+            });
         } catch (error) {
             console.error("Erro ao excluir a tarefa:", error);
-            alert("Erro ao excluir a tarefa. Tente novamente.");
+            Swal.fire({
+                title: "Erro!",
+                text: "Erro ao excluir a tarefa. Tente novamente.",
+                icon: "error",
+                confirmButtonColor: "#1C66B6",
+                confirmButtonText: "Fechar",
+            });
         }
     };
 
     return (
         <div>
-            <section className=''>
+            <section>
                 <NavBar/>
             </section>
 
-            <div style={styles.gridContainer}>
+            <div className="gridContainer">
                 {tasks.map((task) => (
-                    <div key={task.id} style={styles.taskCard}>
-                        <h3>{task.descricao}</h3>
-                        <p><strong>Setor:</strong> {task.setor}</p>
-                        <p><strong>Prioridade:</strong> {task.prioridade}</p>
-                        <p><strong>Usuário:</strong> {task.username}</p>
-                        <p><strong>Data de Cadastro:</strong> {new Date(task.data_cadastro).toLocaleDateString()}</p>
-                        <button
-                            onClick={() => navigate(`/editar-tarefa/${task.id}`)} // Navega para a página de edição
-                            style={styles.updateButton}
-                        >
-                            Editar
-                        </button>
-                        <button
-                            onClick={() => handleDeleteTask(task.id)} // Exclui a tarefa
-                            style={styles.deleteButton}
-                        >
-                            Excluir
-                        </button>
-                        {/* Status editável */}
-                        <div style={styles.statusContainer}>
-                            <label><strong>Status:</strong></label>
+                    <div key={task.id} className="cardContainer">
+                        <div className="card" style={{backgroundColor: statusColors[task.status] || '#f0f0f0'}}>
+                            <div className="cabecalhoContainer">
+                                <p className="cabecalho">{task.setor} | {task.username}</p> {/* Display username */}
+                            </div>
+                            <div className="containerTitle">
+                                <p>{task.descricao}</p>
+                            </div>
+                            <p className="cadastro">Cadastro: {new Date(task.data_cadastro).toLocaleDateString()}</p>
+                            <p className="cadastro">Prioridade: {task.prioridade}</p>
+
+                            <div className="buttons">
+                                <button onClick={() => navigate(`/editar-tarefa/${task.id}`)}>
+                                    <img className="icon" src="/edit.svg" alt="editar" />
+                                </button>
+
+                                <button onClick={() => handleDeleteTask(task.id)}>
+                                    <img className="icon" src="/trash.svg" alt="delete" />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="end">
                             <select
-                                value={task.status} // Exibe o status atual da tarefa
+                                value={task.status} 
                                 onChange={(e) => {
                                     const newStatus = e.target.value;
                                     setTasks(prevTasks =>
@@ -127,7 +158,7 @@ const GerenciamentoDeTarefas = () => {
                                         )
                                     );
                                 }}
-                                style={styles.statusDropdown}
+                                className="status"
                             >
                                 {statusOptions.map(option => (
                                     <option key={option.value} value={option.value}>
@@ -137,8 +168,11 @@ const GerenciamentoDeTarefas = () => {
                             </select>
 
                             <button
-                                onClick={() => handleStatusChange(task.id, task.status)} // Usa o status da tarefa
-                                style={styles.updateButton}
+                                onClick={() => handleStatusChange(task.id, task.status)}
+                                className="statusBtn"
+                                style={{
+                                    backgroundColor: statusColors[task.status] || '#f0f0f0',
+                                }}
                             >
                                 Alterar status
                             </button>
@@ -149,47 +183,5 @@ const GerenciamentoDeTarefas = () => {
         </div>
     );
 };
-
-const styles = {
-    gridContainer: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-        gap: '20px',
-        padding: '20px',
-    },
-    taskCard: {
-        border: '1px solid #ccc',
-        borderRadius: '8px',
-        padding: '15px',
-        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-        backgroundColor: '#fff',
-    },
-    statusContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        marginTop: '10px',
-    },
-    statusDropdown: {
-        marginLeft: '10px',
-        marginRight: '10px',
-    },
-    updateButton: {
-        padding: '5px 10px',
-        backgroundColor: '#007bff',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        marginRight: '5px',
-    },
-    deleteButton: {
-        padding: '5px 10px',
-        backgroundColor: '#dc3545',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-    }
-}
 
 export default GerenciamentoDeTarefas;

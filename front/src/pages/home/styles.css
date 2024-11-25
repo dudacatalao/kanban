@@ -22,6 +22,29 @@ main{
     width: 350px;
     display: flex;
     flex-direction: column;
+ 
+    input {
+      line-height: 30px;
+      padding: 0 5rem;
+      padding-left: 3rem;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      outline: none;
+      background-color: #f8fafc;
+      color: #0d0c22;
+      transition: .5s ease;
+    }
+
+    input::placeholder {
+      color: #94a3b8;
+    }
+
+    input:focus, input:hover {
+      outline: none;
+      border-color: rgb(33, 44, 136);
+      background-color: #fff;
+      box-shadow: 0 0 0 5px rgba(139, 147, 225, 0.3);
+    }
 
     .containerName{
       display: flex;
@@ -43,7 +66,6 @@ main{
         height: 18px;
         outline: none;
         text-decoration: none;
-        border: 1px solid #DDDDDD;
         border-radius: 3px;
         padding: 10px;
         font-size: 15px;

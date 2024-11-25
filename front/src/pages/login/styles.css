@@ -1,6 +1,7 @@
 section{
   display: flex;
   width: 100%;
+  overflow: hidden;
 
   .left{
     display: flex;
@@ -128,21 +129,30 @@ section{
   .right{
     display: flex;
     width: 40%;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #f4f5f9;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    position: relative;
 
-    .circle{
-      width: 250px;
-      height: 250px;
-      background-color: #0056b3;
-      border-radius: 100%;
-      filter: blur(3);
-
-      .line{
-        line-height: 1px;
-      }
+    img{
+      width: 480px;
     }
+
+    .logo {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+    }
+    
+    .logo img {
+      width: 100px;
+    }
+    
   }
 }

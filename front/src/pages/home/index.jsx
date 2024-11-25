@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './styles.css'
 import NavBar from '../../components/navbar/navbar';
-
+import Swal from "sweetalert2";
 
 function Home() {
   const [username, setUsername] = useState('');
@@ -18,14 +18,26 @@ function Home() {
         email,
       });
       console.log('Usuário cadastrado:', response.data);
-      setMsn('Cadastro concluído com sucesso!!!')
+      Swal.fire({
+        title: "Cadastrado!",
+        text: "O usuário foi cadastrado com sucesso.",
+        icon: "success",
+        confirmButtonColor: "#1C66B6",
+        confirmButtonText: "Fechar",
+    });
       setUsername('');
       setEmail('');
     } catch (error) {
       console.log("Username: ", username)
       console.log("Email: ", email)
       console.error('Erro ao cadastrar usuário:', error);
-      setMsn('Erro ao cadastrar usuário.')
+      Swal.fire({
+        title: "Erro!",
+        text: "Erro ao cadastrar o usuário. Verifique os dados e tente novamente.",
+        icon: "error",
+        confirmButtonColor: "#1C66B6",
+        confirmButtonText: "Fechar",
+    })
     }
   };
 

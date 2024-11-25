@@ -3,13 +3,14 @@ import './styles.css';
 import axios from "axios";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import NavBar from "../../components/navbar/navbar";
+import Swal from "sweetalert2";
 
 const TaskForm = () => {
-  const { id } = useParams(); // Pega o ID da URL
-  const [task, setTask] = useState(null); // Armazena a tarefa
-  const [loading, setLoading] = useState(true); // Controle de carregamento
-  const navigate = useNavigate(); // Para redirecionar após a edição
-  const [usuarios, setUsuarios] = useState([]); // Lista de usuários
+  const { id } = useParams(); 
+  const [task, setTask] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+  const navigate = useNavigate(); 
+  const [usuarios, setUsuarios] = useState([]); 
   const [formData, setFormData] = useState({
     usuario: "",
     descricao: "",
@@ -18,22 +19,20 @@ const TaskForm = () => {
     status: "a_fazer",
   });
 
-  // Carrega a lista de usuários da API quando o componente é montado
   useEffect(() => {
     axios.get("http://localhost:8000/api/users/")
       .then(response => setUsuarios(response.data))
       .catch(error => console.error("Erro ao carregar usuários:", error));
   }, []);
 
-  // Carrega os dados da tarefa para edição
   useEffect(() => {
     const fetchTask = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/tasks/${id}/`);
-        console.log('Dados da Tarefa:', response.data); // Verifique se os dados estão sendo retornados
+        console.log('Dados da Tarefa:', response.data); 
         const taskData = response.data;
         setTask(taskData);
-        // Preenche o formulário com os dados da tarefa
+
         setFormData({
           usuario: taskData.usuario || "",
           descricao: taskData.descricao || "",
@@ -44,36 +43,45 @@ const TaskForm = () => {
         setLoading(false);
       } catch (error) {
         console.error('Erro ao carregar a tarefa:', error);
-        setLoading(false); // Finaliza o carregamento
+        setLoading(false); 
       }
     };
 
     fetchTask();
   }, [id]);
 
-  // Função para lidar com mudanças nos campos do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Função para enviar os dados atualizados para a API
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Dados enviados:", formData);
 
     axios.put(`http://localhost:8000/api/tasks/${id}/`, formData)
       .then(response => {
-        alert("Tarefa atualizada com sucesso!");
-        navigate("/gerenciar-tarefas"); // Redireciona para a página de gerenciamento de tarefas
+      Swal.fire({
+          title: "Tarefa Atualizada!",
+          text: "A Tarefa foi atualizada com sucesso.",
+          icon: "success",
+          confirmButtonColor: "#1C66B6",
+          confirmButtonText: "Fechar",
+      });
+        navigate("/gerenciar-tarefas"); 
       })
       .catch(error => {
         console.error("Erro ao atualizar a tarefa:", error);
-        alert("Erro ao atualizar a tarefa. Tente novamente.");
+        Swal.fire({
+          title: "Erro!",
+          text: "Erro ao atualizar a tarefa. Tente novamente.",
+          icon: "error",
+          confirmButtonColor: "#1C66B6",
+          confirmButtonText: "Fechar",
+      })
       });
   };
 
-  // Exibe uma mensagem de carregamento enquanto os dados estão sendo buscados
   if (loading) {
     return <div>Carregando...</div>;
   }

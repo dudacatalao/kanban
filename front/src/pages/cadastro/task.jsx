@@ -1,10 +1,9 @@
-// Task.js
-
 import React, { useState, useEffect } from "react";
-import './styles.css'
+import './styles.css';
 import axios from "axios";
 import { Link } from 'react-router-dom'; 
 import NavBar from "../../components/navbar/navbar";
+import Swal from "sweetalert2";
 
 const TaskForm = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -16,27 +15,30 @@ const TaskForm = () => {
     status: "a_fazer",
   });
 
-  // Carrega a lista de usuários da API quando o componente é montado
   useEffect(() => {
     axios.get("http://localhost:8000/api/users/")
       .then(response => setUsuarios(response.data))
       .catch(error => console.error("Erro ao carregar usuários:", error));
   }, []);
 
-  // Função para lidar com mudanças nos campos do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
   };
 
-  // Função para enviar os dados do formulário para a API
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Dados enviados:", formData)
+    console.log("Dados enviados:", formData);
     axios.post("http://localhost:8000/api/tasks/", formData)
       .then(response => {
-        alert("Tarefa cadastrada com sucesso!");
+        Swal.fire({
+          title: "Tarefa Cadastrada!",
+          text: "A tarefa foi adicionada com sucesso.",
+          icon: "success",
+          confirmButtonColor: "#1C66B6",
+          confirmButtonText: "Fechar",
+        });
+
         setFormData({
           usuario: "",
           descricao: "",
@@ -45,13 +47,22 @@ const TaskForm = () => {
           status: "a_fazer",
         });
       })
-      .catch(error => console.error("Erro ao cadastrar tarefa:", error));
+      .catch(error => {
+        console.error("Erro ao cadastrar tarefa:", error);
+        Swal.fire({
+          title: "Erro!",
+          text: "Erro ao cadastrar. Verifique os dados e tente novamente.",
+          icon: "error",
+          confirmButtonColor: "#1C66B6",
+          confirmButtonText: "Fechar",
+        });
+      });
   };
 
   return (
     <div>
-      <section className="">
-        <NavBar/>
+      <section>
+        <NavBar />
       </section>
 
       <main>
@@ -93,8 +104,6 @@ const TaskForm = () => {
           <button type="submit" className="button">Cadastrar Tarefa</button>
         </form>
       </main>
-
-
     </div>
   );
 };

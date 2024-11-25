@@ -76,10 +76,11 @@ export default function Login() {
       </div>
 
       <div className="right">
-        <div className="circle">
-          <div className="line"></div>
-        </div>
-        
+       <img src="/scrum_board.svg" alt="ilustration scrum board" />
+
+       <div className="logo">
+        <img src="/logo.png" alt="logo" />
+       </div>
       </div>
     </section>
   );
