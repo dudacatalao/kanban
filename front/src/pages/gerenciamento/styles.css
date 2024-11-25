@@ -64,12 +64,3 @@ button:focus {
   outline: none;
   box-shadow: 0px 0px 5px rgba(0, 150, 0, 0.5);
 }
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: blue;
-  padding: 10px;
-  color: white;
-}

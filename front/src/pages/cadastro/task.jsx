@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import './styles.css'
 import axios from "axios";
 import { Link } from 'react-router-dom'; 
+import NavBar from "../../components/navbar/navbar";
 
 const TaskForm = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -49,14 +50,9 @@ const TaskForm = () => {
 
   return (
     <div>
-        <header className="header">
-        <h1 className="title">Gerenciador de Tarefas</h1>
-        <nav className="nav">
-          <Link className="Link" to="/cadastro-usuarios">Cadastro de Usuários</Link>
-          <Link className="Link" to="/cadastrar-tarefas">Cadastro de Tarefas</Link>
-          <Link className="Link" to="/gerenciar-tarefas">Gerenciar Tarefas</Link>
-        </nav>
-      </header>
+      <section className="">
+        <NavBar/>
+      </section>
 
       <h2>Cadastrar Nova Tarefa</h2>
       <form onSubmit={handleSubmit}>

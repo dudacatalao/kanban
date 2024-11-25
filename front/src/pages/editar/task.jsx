@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import './styles.css';
 import axios from "axios";
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import NavBar from "../../components/navbar/navbar";
 
 const TaskForm = () => {
   const { id } = useParams(); // Pega o ID da URL
@@ -79,13 +80,8 @@ const TaskForm = () => {
 
   return (
     <div>
-      <header className="header">
-        <h1 className="title">Gerenciador de Tarefas</h1>
-        <nav className="nav">
-          <Link className="Link" to="/cadastro-usuarios">Cadastro de Usuários</Link>
-          <Link className="Link" to="/cadastrar-tarefas">Cadastro de Tarefas</Link>
-          <Link className="Link" to="/gerenciar-tarefas">Gerenciar Tarefas</Link>
-        </nav>
+      <header className="">
+        <NavBar/>
       </header>
 
       <h2>Editar Tarefa</h2>

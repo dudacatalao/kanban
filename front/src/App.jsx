@@ -4,7 +4,7 @@ import GerenciamentoDeTarefas from './pages/gerenciamento/GerenciamentoDeTarefas
 import CadastroDeTarefas from './pages/cadastro/task.jsx';
 import CadastroDeUsuario from './pages/home/index.jsx'
 import EditarTarefa from './pages/editar/task.jsx'
-import Login from './login/login.jsx';
+import Login from './pages/login/login.jsx';
 
 function App() {
     return (
